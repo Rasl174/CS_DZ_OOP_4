@@ -44,7 +44,7 @@ namespace CS_DZ_OOP_4
                 switch (userInput)
                 {
                     case "1":
-                        TakeDeck();
+                        TakeCards();
                         break;
                     case "2":
                         Shuffle();
@@ -83,7 +83,7 @@ namespace CS_DZ_OOP_4
             }
         }
 
-        private void TakeDeck()
+        private void TakeCards()
         {
             if (_playerDeck.Count > 0)
             {
@@ -102,11 +102,11 @@ namespace CS_DZ_OOP_4
 
         private void TakeOneCard()
         {
-            int takes = 1;
+            int cardsCount = 1;
 
             if(_playerDeck.Count == 1 && CardsCount < 36)
             {
-                CardsCount += takes;
+                CardsCount += cardsCount;
                 Console.Clear();
                 Console.WriteLine("На руках " + CardsCount + " карт(a)");
             }
@@ -122,7 +122,7 @@ namespace CS_DZ_OOP_4
             {
                 foreach (var deck in _playerDeck)
                 {
-                    deck.ShuffleDeck();
+                    deck.ShuffleCards();
                 }
             }
             else
@@ -138,20 +138,20 @@ namespace CS_DZ_OOP_4
 
         public Deck()
         {
-            TakeDeck();
+            TakeCards();
         }
 
-        public void ShowCards(int takes)
+        public void ShowCards(int cardsCount)
         {
             Console.Clear();
 
-            for (int i = 0; i < takes; i++)
+            for (int i = 0; i < cardsCount; i++)
             {
                 Console.WriteLine(_cards[i].CardFace);
             }
         }
 
-        public void ShuffleDeck()
+        public void ShuffleCards()
         {
             Random random = new Random();
 
@@ -168,7 +168,7 @@ namespace CS_DZ_OOP_4
             Console.ReadKey();
         }
 
-        public void TakeDeck()
+        public void TakeCards()
         {
             _cards.Add(new Card("6 - буби")); _cards.Add(new Card("6 - пики")); _cards.Add(new Card("6 - черви")); _cards.Add(new Card("6 - крести"));
             _cards.Add(new Card("7 - буби")); _cards.Add(new Card("7 - пики")); _cards.Add(new Card("7 - черви")); _cards.Add(new Card("7 - крести"));
