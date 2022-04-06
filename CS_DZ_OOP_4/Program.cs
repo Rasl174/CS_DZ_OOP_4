@@ -20,7 +20,7 @@ namespace CS_DZ_OOP_4
     class Player
     {
         private List<Deck> _playerDeck = new List<Deck>();
-        public int Takes { get; private set; }
+        public int CardsCount { get; private set; }
 
         public Player(List<Deck> playerDeck)
         {
@@ -72,7 +72,7 @@ namespace CS_DZ_OOP_4
             {
                 foreach (var item in _playerDeck)
                 {
-                    item.ShowCards(Takes);
+                    item.ShowCards(CardsCount);
                 }
                 _playerDeck.Clear();
                 Console.WriteLine("Карты скинуты в колоду!");
@@ -104,11 +104,11 @@ namespace CS_DZ_OOP_4
         {
             int takes = 1;
 
-            if(_playerDeck.Count == 1 && Takes < 36)
+            if(_playerDeck.Count == 1 && CardsCount < 36)
             {
-                Takes += takes;
+                CardsCount += takes;
                 Console.Clear();
-                Console.WriteLine("На руках " + Takes + " карт(a)");
+                Console.WriteLine("На руках " + CardsCount + " карт(a)");
             }
             else
             {
