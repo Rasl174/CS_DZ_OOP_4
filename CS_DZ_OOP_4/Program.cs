@@ -13,8 +13,6 @@ namespace CS_DZ_OOP_4
             List<Deck> deck = new List<Deck>();
             Player player = new Player(deck);
 
-            Console.WriteLine("Это игра в очко. Нужно набрать 21 балл.");
-
             player.Play();
         }
     }
@@ -22,7 +20,7 @@ namespace CS_DZ_OOP_4
     class Player
     {
         private List<Deck> _playerDeck = new List<Deck>();
-        private Queue<Deck> _cardsInHend = new Queue<Deck>();
+        public int Takes { get; private set; }
 
         public Player(List<Deck> playerDeck)
         {
@@ -59,6 +57,7 @@ namespace CS_DZ_OOP_4
                         break;
                     case "5":
                     case "exit":
+                        isPlay = false;
                         break;
                     default:
                         Console.WriteLine("Не верный ввод!");
@@ -69,10 +68,18 @@ namespace CS_DZ_OOP_4
 
         private void ShowPlayerCards()
         {
-            foreach (var item in _playerDeck)
+            if(_playerDeck.Count > 0)
             {
-                _cardsInHend.Enqueue(item);
-                item.ShowCards();
+                foreach (var item in _playerDeck)
+                {
+                    item.ShowCards(Takes);
+                }
+                _playerDeck.Clear();
+                Console.WriteLine("Карты скинуты в колоду!");
+            }
+            else
+            {
+                Console.WriteLine("Нет карт на руках.");
             }
         }
 
@@ -87,12 +94,26 @@ namespace CS_DZ_OOP_4
             else
             {
                 _playerDeck.Add(new Deck());
+                Console.Clear();
+                Console.WriteLine("Колода на руках. Внимание колода не перемешана!");
+                Console.ReadKey();
             }
         }
 
         private void TakeOneCard()
         {
+            int takes = 1;
 
+            if(_playerDeck.Count == 1 && Takes < 36)
+            {
+                Takes += takes;
+                Console.Clear();
+                Console.WriteLine("На руках " + Takes + " карт(a)");
+            }
+            else
+            {
+                Console.WriteLine("В руках нет колоды или на руках все карты!");
+            }
         }
 
         private void Shuffle()
@@ -101,7 +122,7 @@ namespace CS_DZ_OOP_4
             {
                 foreach (var deck in _playerDeck)
                 {
-                    deck.ShuffleDeck(_playerDeck);
+                    deck.ShuffleDeck();
                 }
             }
             else
@@ -117,43 +138,34 @@ namespace CS_DZ_OOP_4
 
         public Deck()
         {
-            TryTakeDeck();
+            TakeDeck();
         }
 
-        public void TryTakeDeck()
+        public void ShowCards(int takes)
         {
-            if (_cards.Count > 0)
+            Console.Clear();
+
+            for (int i = 0; i < takes; i++)
             {
-                Console.WriteLine("    wefwfwefwe    ");
-            }
-            else
-            {
-                TakeDeck();
+                Console.WriteLine(_cards[i].CardFace);
             }
         }
 
-        public void ShowCards()
+        public void ShuffleDeck()
         {
-            foreach (var item in _cards)
-            {
-                Console.WriteLine(item.CardFace);
-            }
-        }
-
-        public void ShuffleDeck<Deck>(List<Deck> cards)
-        {
-            Console.WriteLine("Колода перемешана!");
-
             Random random = new Random();
 
-            for (int i = _cards.Count - 1; i >= 1; i--)
-            {
-                int j = random.Next(i + 1);
+            var deck = _cards;
+            var shuffleDeck = deck.OrderBy(x => random.Next());
 
-                Deck temp = cards[j];
-                cards[j] = cards[i];
-                cards[i] = temp;
+            foreach (var card in shuffleDeck)
+            {
+                _cards.Remove(card);
+                _cards.Add(card);
             }
+            Console.Clear();
+            Console.WriteLine("Колода перемешана!");
+            Console.ReadKey();
         }
 
         public void TakeDeck()
